@@ -1,0 +1,5 @@
+# train parameters
+TrainConfig.beta = 10.0
+TrainConfig.iql_tau = 0.9
+TrainConfig.normalize = True
+TrainConfig.normalize_reward = True

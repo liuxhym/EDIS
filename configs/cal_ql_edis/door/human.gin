@@ -1,0 +1,51 @@
+# Diffusion training.
+REDQTrainer.train_batch_size = 256
+REDQTrainer.train_lr = 3e-4
+REDQTrainer.lr_scheduler = "cosine"
+REDQTrainer.weight_decay = 0
+REDQTrainer.train_num_steps = 3000
+
+# 50000
+# Don't save. 
+REDQTrainer.save_and_sample_every = 100000000
+
+# Diffusion sampling.
+SimpleDiffusionGenerator.num_sample_steps = 128
+
+# Online setup.
+construct_diffusion_model.denoising_network = @ResidualMLPDenoiser
+construct_diffusion_model.normalizer_type = 'standard'
+
+# Diffusion denoising network.
+ResidualMLPDenoiser.dim_t = 256
+ResidualMLPDenoiser.mlp_width = 1024
+ResidualMLPDenoiser.num_layers = 6
+ResidualMLPDenoiser.learned_sinusoidal_cond = False
+ResidualMLPDenoiser.random_fourier_features = True
+ResidualMLPDenoiser.learned_sinusoidal_dim = 16
+ResidualMLPDenoiser.activation = 'relu'
+ResidualMLPDenoiser.layer_norm = False
+
+# No terminals in DMC.
+modelled_terminals = False
+# redq_sac.model_terminals = %modelled_terminals
+split_diffusion_samples.modelled_terminals = %modelled_terminals
+
+
+# train parameters
+TrainConfig.utd_ratio = 1
+TrainConfig.offline_mixing_ratio = 0.5
+TrainConfig.ope_clip = 0.01
+TrainConfig.te_clip = 0.01
+TrainConfig.pe_clip = 0.01
+TrainConfig.normalize = False
+TrainConfig.normalize_reward = False
+TrainConfig.q_n_hidden_layers = 3
+TrainConfig.cql_alpha = 1
+TrainConfig.cql_alpha_online = 2
+TrainConfig.reward_scale = 1
+TrainConfig.reward_bias = 0
+TrainConfig.is_sparse_reward = False
+TrainConfig.cql_clip_diff_min = -200
+TrainConfig.cql_target_action_gap = 0.8
+TrainConfig.cql_max_target_backup = True

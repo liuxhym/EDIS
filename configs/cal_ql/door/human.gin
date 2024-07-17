@@ -1,0 +1,25 @@
+# train parameters
+TrainConfig.alpha_multiplier = 1.0
+TrainConfig.buffer_size = 10000000
+
+TrainConfig.cql_alpha = 1.0
+TrainConfig.cql_alpha_online = 1.0
+
+TrainConfig.cql_clip_diff_max = 5e34
+TrainConfig.cql_clip_diff_min = -200
+TrainConfig.cql_importance_sample = True
+TrainConfig.cql_lagrange = False
+TrainConfig.cql_max_target_backup = True
+TrainConfig.cql_target_action_gap = 0.8
+TrainConfig.cql_temp = 1.0
+
+TrainConfig.offline_mixing_ratio = 0.5
+
+TrainConfig.normalize = False
+TrainConfig.normalize_reward = True
+
+TrainConfig.q_n_hidden_layers = 3
+TrainConfig.reward_scale = 1.0
+TrainConfig.reward_bias = 0.0
+
+TrainConfig.is_sparse_reward = False
