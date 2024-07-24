@@ -3,7 +3,7 @@ REDQTrainer.train_batch_size = 256
 REDQTrainer.train_lr = 3e-4
 REDQTrainer.lr_scheduler = "cosine"
 REDQTrainer.weight_decay = 0
-REDQTrainer.train_num_steps = 3000
+REDQTrainer.train_num_steps = 10000
 
 # 50000
 # Don't save. 
@@ -35,11 +35,18 @@ split_diffusion_samples.modelled_terminals = %modelled_terminals
 # train parameters
 TrainConfig.utd_ratio = 1
 TrainConfig.offline_mixing_ratio = 0.2
-TrainConfig.ope_clip = 2
+TrainConfig.ope_clip = 1
 TrainConfig.te_clip = 0.01
 TrainConfig.pe_clip = 0.01
-TrainConfig.normalize = True
-TrainConfig.normalize_reward = True
-TrainConfig.q_n_hidden_layers = 2 
-TrainConfig.cql_alpha = 10
-TrainConfig.cql_alpha_online = 10 
+TrainConfig.normalize = False
+TrainConfig.normalize_reward = False
+TrainConfig.q_n_hidden_layers = 3
+TrainConfig.cql_lagrange = False
+TrainConfig.cql_alpha = 1
+TrainConfig.cql_alpha_online = 2.5
+TrainConfig.reward_scale = 1
+TrainConfig.reward_bias = 0
+TrainConfig.is_sparse_reward = False
+TrainConfig.cql_clip_diff_min = -200
+TrainConfig.cql_target_action_gap = 0.8
+TrainConfig.cql_max_target_backup = True
