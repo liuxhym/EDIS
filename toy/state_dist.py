@@ -235,9 +235,9 @@ if __name__ == "__main__":
     parser.add_argument("--env", type=str, default="halfcheetah-medium-v2")  ################ task
     parser.add_argument("--seed", type=int, default=6)  ############################ seed
     parser.add_argument("--log_name", type=str, default="cal_ql")
-    parser.add_argument("--policy_guide", action='store_true', default=False)
-    parser.add_argument("--state_guide", action='store_true', default=False)
-    parser.add_argument("--transition_guide", action='store_true', default=False)
+    parser.add_argument("--policy_guide", action='store_true', default=True)
+    parser.add_argument("--state_guide", action='store_true', default=True)
+    parser.add_argument("--transition_guide", action='store_true', default=True)
     parser.add_argument("--test_divergence", type=bool, default=False)
 
     parser.add_argument("--ope_clip", type=float, default=10)
