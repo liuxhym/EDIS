@@ -72,7 +72,7 @@ class TrainConfig(object):
         self.eval_seed: int = 0  # Eval environment seed
         self.eval_freq: int = int(1e4)  # How often (time steps) we evaluate
         self.n_episodes: int = 10  # How many episodes run during evaluation
-        self.offline_iterations: int = int(1e6)  # Number of offline updates
+        self.offline_iterations: int = int(3e5)  # Number of offline updates
         self.online_iterations: int = int(2e5+10)  # Number of online updates
         self.checkpoints_path: Optional[str] = None # Save path
         self.load_model: str = ""  # Model load file name, "" doesn't load
@@ -1297,7 +1297,7 @@ def train(args):#, config=config):
                 
                 diffusion_trainer.update_normalizer(replay_buffer, device=config.device)
                 diffusion_trainer.train_from_redq_buffer(replay_buffer)
-                diffusion_trainer.train_energy(replay_buffer, online_buffer, actor, config.num_negative_sample, env=env)
+                diffusion_trainer.train_energy(online_buffer, actor, config.num_negative_sample, env=env)
                 if rew_model is not None:
                     diffusion_trainer.train_rew_model(replay_buffer)
 
@@ -1438,7 +1438,7 @@ def train(args):#, config=config):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--env", type=str, default="hopper-random-v2") ################ task
+    parser.add_argument("--env", type=str, default="antmaze-umaze-v2") ################ task
     parser.add_argument("--seed", type=int, default=10) ############################ seed
     parser.add_argument("--log_name", type=str, default="cal_ql_edis")
     parser.add_argument("--policy_guide", action='store_true', default=True)

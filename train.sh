@@ -1,0 +1,1 @@
+NCCL_IB_DISABLE=1 NCCL_P2P_DISABLE=1 python -u algorithms/cal_ql_edis.py --env walker2d-random-v2 --policy_guide --state_guide --transition_guide --seed 48

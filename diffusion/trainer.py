@@ -362,15 +362,12 @@ class REDQTrainer(Trainer):
 
 
     def train_energy(self,
-                     replay_buffer: calq_ReplayBuffer,
                      online_buffer: calq_ReplayBuffer,
                      actor,
                      num_negative_sample,
                      env):
 
         for _ in range(self.energy_train_epoch):
-            replay_batch = replay_buffer.sample(self.ebm_batch_size)
-
             online_batch = online_buffer.sample(self.ebm_batch_size)
 
             if self.args.state_guide:
@@ -550,10 +547,14 @@ class REDQTrainer(Trainer):
             intermi_negative_samples = torch.cat([torch.tensor(i).to(states) for i in list(intermi_negative_samples)[:-1]], dim=-1)
             intermi_negative_samples = torch.cat([intermi_negative_samples, torch.ones(intermi_negative_samples.shape[0],1).to(intermi_negative_samples) * step], dim = -1)
 
-            try:
-                policy_action, _ = actor(states)
-            except:
-                policy_action = actor(states).rsample()
+            if 'take_action' in dir(actor):
+                policy_action = actor.take_action(states)
+                policy_action = torch.as_tensor(policy_action, device=device, dtype=torch.float32)
+            else:
+                try:
+                    policy_action, _ = actor(states)
+                except:
+                    policy_action = actor(states).rsample()
             action_noise = sigma[step] * torch.randn(actions.shape, device=device)
             state_noise = sigma[step] * torch.randn(states.shape, device=device)
             reward_noise = sigma[step] * torch.randn(rewards.shape, device=device)
@@ -586,10 +587,18 @@ class REDQTrainer(Trainer):
         self.pe_optim.step()
         return loss
 
-    def train_from_redq_buffer(self, buffer, num_steps: Optional[int] = None):
+    def train_from_redq_buffer(self, buffer, online_buffer = None, num_steps: Optional[int] = None):
         num_steps = num_steps or self.train_num_steps
         for j in range(num_steps):
-            states, actions, rewards, next_states, dones, mc_returns = buffer.sample(self.batch_size)
+            if online_buffer is not None:
+                states, actions, rewards, next_states, dones, mc_returns = online_buffer.sample(int(0.5*self.batch_size))
+                states_off, actions_off, rewards_off, next_states_off, dones_off, mc_returns_off = buffer.sample(int(0.5*self.batch_size))
+                states = torch.cat([states, states_off], dim=0)
+                actions = torch.cat([actions, actions_off], dim=0)
+                rewards = torch.cat([rewards, rewards_off], dim=0)
+                next_states = torch.cat([next_states, next_states_off], dim=0)
+            else:
+                states, actions, rewards, next_states, dones, mc_returns = buffer.sample(self.batch_size)
             data = [states, actions, rewards, next_states]
             if self.model_terminals:
                 data.append(dones)

@@ -34,8 +34,8 @@ split_diffusion_samples.modelled_terminals = %modelled_terminals
 
 # train parameters
 TrainConfig.utd_ratio = 1
-TrainConfig.offline_mixing_ratio = 0.5
-TrainConfig.ope_clip = 1
+TrainConfig.offline_mixing_ratio = 0.2
+TrainConfig.ope_clip = 0.1
 TrainConfig.te_clip = 0.2
 TrainConfig.pe_clip = 0.2
 TrainConfig.normalize = True
@@ -43,3 +43,4 @@ TrainConfig.normalize_reward = True
 TrainConfig.q_n_hidden_layers = 2 
 TrainConfig.cql_alpha = 10
 TrainConfig.cql_alpha_online = 10 
+TrainConfig.is_sparse_reward = False

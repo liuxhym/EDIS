@@ -17,7 +17,7 @@ TensorBatch = List[torch.Tensor]
 
 
 def combine_two_tensors(tensor1, tensor2):
-    return Tensor(torch.cat([tensor1, tensor2], dim=0))
+    return torch.cat([tensor1, tensor2], dim=0)
 
 
 

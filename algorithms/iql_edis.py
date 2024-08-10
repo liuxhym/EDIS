@@ -811,7 +811,7 @@ def train(args, config=config):
                 )
                 diffusion_trainer.update_normalizer(replay_buffer, device=config.device)
                 diffusion_trainer.train_from_redq_buffer(replay_buffer)
-                diffusion_trainer.train_energy(replay_buffer, online_buffer, actor, config.num_negative_sample, env=env)
+                diffusion_trainer.train_energy(online_buffer, actor, config.num_negative_sample, env=env)
 
                 diffusion_replay_buffer = calq_ReplayBuffer(
                     state_dim,

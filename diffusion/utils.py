@@ -69,8 +69,8 @@ def split_diffusion_samples_no_sa(
     obs_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
     # Split samples into (s, a, r, s') format
-    rewards = samples[:, 0]
-    next_obs = samples[:, 1: obs_dim + action_dim + 1]
+    rewards = samples[:, obs_dim+action_dim : obs_dim+action_dim+1]
+    next_obs = samples[:, obs_dim+action_dim+1 : 2*obs_dim+action_dim+1]
     if modelled_terminals:
         terminals = samples[:, -1]
         if terminal_threshold is not None:
